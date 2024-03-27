@@ -15,5 +15,5 @@ else
 fi
 
 # add any steps to configure the teest environment and run tests
-python app.py -c true -d $timestamp
+.venv/bin/python3 app.py -c true -d $timestamp
 

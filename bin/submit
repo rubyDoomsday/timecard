@@ -14,4 +14,4 @@ else
   hours="m8t8w8r8f8"
 fi
 
-python app.py --hours $hours --date $(date +%m/%d/%Y)
+.venv/bin/python3 app.py --hours $hours --date $(date +%m/%d/%Y)
