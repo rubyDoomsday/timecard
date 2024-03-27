@@ -13,15 +13,16 @@ class Timecard:
             self.submit_week(self.args.date, self.args.hours)
         else:
             self.__copy_last_week(self.args.date)
+        print("done")
 
     def submit_week(self, date, hours):
         _hours = self.__parse_hours(hours)
         print(f'create new hours for -> {date}: {_hours}')
-        client.Client(self.config).submit_week(date, _hours)
+        self.__client.submit_week(date, _hours)
 
     def __copy_last_week(self, date):
         print(f'copy last week to this week -> {date}')
-        client.Client(self.config).copy_last_week(date)
+        self.__client.copy_last_week(date)
 
     def __parse_hours(self, hours):
         result_dict = {}
@@ -31,3 +32,6 @@ class Timecard:
             result_dict[key] = value
 
         return result_dict
+
+    def __client(self):
+        return client.Client(self.config)
