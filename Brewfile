@@ -1,0 +1,5 @@
+tap "homebrew/bundle"
+brew "pyenv"
+brew "python-psutil"
+brew "python@3.11"
+cask "chromedriver"

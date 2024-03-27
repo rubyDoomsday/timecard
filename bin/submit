@@ -1,0 +1,19 @@
+#!/bin/bash
+
+# script/submit
+#
+# runs the script
+#
+set -e
+
+cd "$(dirname "$0")/.."
+
+if [ -n "$1" ]; then
+  hours=$1
+else
+  hours="m8t8w8r8f8"
+fi
+
+# add any steps to configure the teest environment and run tests
+python app.py --hours $hours --date $(date +%m/%d/%Y)
+

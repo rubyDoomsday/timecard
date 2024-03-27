@@ -1,0 +1,19 @@
+#!/bin/bash
+
+# script/copy
+#
+# runs the script
+#
+set -e
+
+cd "$(dirname "$0")/.."
+
+if [ -n "$1" ]; then
+  timestamp=$1
+else
+  timestamp=$(date -v-5d '+%m/%d/%y')
+fi
+
+# add any steps to configure the teest environment and run tests
+python app.py -c true -d $timestamp
+
