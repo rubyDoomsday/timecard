@@ -10,6 +10,7 @@ OK_BUTTON="/html/body/div[6]/div[2]/div[2]/input"
 SUBMIT_BUTTON='//*[@id="submitall"]'
 DEFAULT_DATE=time.strftime('%m/%d/%Y', time.localtime(time.time()))
 DEFAULT_HOURS={'m': 8, 't': 8, 'w': 8, 'r': 8, 'f': 8}
+VERIFICATION_SECONDS=30
 
 class Client:
     def __init__(self, config):
@@ -17,25 +18,22 @@ class Client:
         self.config = config
 
     def copy_last_week(self, date = DEFAULT_DATE):
-        self.login()
-        self.open_calendar()
-        self.open_timecard(date)
+        self.__setup(date)
+
         self.driver.find_element(By.LINK_TEXT, COPY_BUTTON).click()
         self.driver.find_element(By.XPATH, OK_BUTTON).click()
         self.driver.find_element(By.XPATH, SUBMIT_BUTTON).click()
-        time.sleep(10) # verification
-        self.driver.quit()
+
+        self.__teardown()
 
     def submit_week(self, date = DEFAULT_DATE, hours =  DEFAULT_HOURS):
-        self.login()
-        self.open_calendar()
-        self.open_timecard(date)
+        self.__setup(date)
+
         for key, value in hours.items():
             self.add_hours(key, value)
-
         self.driver.find_element(By.XPATH, SUBMIT_BUTTON).click()
-        time.sleep(10) # verification
-        self.driver.quit()
+
+        self.__teardown()
 
     def add_hours(self, day, number):
         fields = {
@@ -70,6 +68,15 @@ class Client:
         params = self.__get_params()
         url = self.__timecard_url(params["userid"], date)
         self.driver.get(url)
+
+    def __setup(self, date):
+        self.login()
+        self.open_calendar()
+        self.open_timecard(date)
+
+    def __teardown(self):
+        time.sleep(VERIFICATION_SECONDS)
+        self.driver.quit()
 
     def __get_params(self):
         url = self.driver.current_url
